@@ -39,6 +39,7 @@ public class Automobil {
 
     public Automobil(String nume){
         this.nume = nume;
+        anul = 2000;
         automobile++;
     }
 
@@ -116,10 +117,10 @@ public class Automobil {
         Random rand = new Random();
         String[] numeRandom = new String[]{"Skoda", "Toyota", "Nissan"};
         nume = numeRandom[rand.nextInt(numeRandom.length)];
-        anul = rand.nextInt(2024)+1885;
+        anul = rand.nextInt(139)+1885;
         nr_accidente = rand.nextInt(numeRandom.length);
         accidente = new int[nr_accidente];
-        for(int i=0;i<accidente.length;i++){
+        for(int i=0;i<nr_accidente;i++){
             accidente[i] = rand.nextInt(10000)+50;
         }
 
@@ -127,8 +128,8 @@ public class Automobil {
 
 
     public void compare(Automobil a){
-        System.out.println(this.nume+(" --- ")+accidente+(" accidente") );
-        System.out.println(a.nume+(" --- ")+a.accidente+(" accidente") );
+        System.out.println(this.nume+(" --- ")+nr_accidente+(" accidente") );
+        System.out.println(a.nume+(" --- ")+a.nr_accidente+(" accidente") );
 
     }
 
@@ -140,10 +141,10 @@ public class Automobil {
             for (int i = 0; i < accidente.length; i++) {
                 sum += accidente[i];
             }
-            System.out.println("Automobilul a fost reparat in suma de "+sum+("$"));
+            System.out.println("Automobilul "+nume+" a fost reparat in suma de "+sum+("$"));
             return sum;
         }
-        System.out.println("Masina nu a avut accidente");
+        System.out.println("Automobilul "+nume+" nu a fost reparat");
         return 0;
     }
 
@@ -172,17 +173,36 @@ public class Automobil {
 
 
 
-    public int[] setAccidente(int accidenteTemp) {
+    public void setAccidente(int accidenteTemp) {
         if (accidenteTemp >= 0 && accidenteTemp <= 50 && accidenteTemp != nr_accidente) {
             int[] oldAccidente = new int[nr_accidente];
                  for (int i = 0; i < nr_accidente; i++) {
                      oldAccidente[i] = accidente[i];
                  }
-            accidente = new int[accidenteTemp];
-            return oldAccidente;
+            //accidente = new int[accidenteTemp];  
+            
+
+            if(accidenteTemp > nr_accidente)
+            {
+                for(int i =0; i < oldAccidente.length; i++)
+                {
+                    accidente[i] = oldAccidente[i];
+
+                }
             }
-        return null;
+
+            else 
+            {
+                for(int i =0; i < accidente.length; i++)
+                {
+                    accidente[i] = oldAccidente[i];
+
+                }
+            }
+            nr_accidente = accidenteTemp;
+        
         }
+    }
 
 
     public void setNr_accidente(int nr_accidente) {
