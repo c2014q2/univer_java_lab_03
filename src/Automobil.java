@@ -1,45 +1,56 @@
 import java.util.Scanner;
+import java.util.Random;
+
 public class Automobil {
     private String nume;
-    private int accidente;
+    private int nr_accidente;
+    private int[] accidente;
     private static int automobile;
-    private int costulAccidente[];
+   // private int costulAccidente[];
     private int anul;
 
 
     public Automobil() {
-
-        costulAccidente = null;
+        nr_accidente = 0;
+        nume = "null";
+        //accidente = null;
         automobile++;
+        anul = 2000;
+
 
     }
 
-    public Automobil(String nume,int accidente, int anul, int costulAccidente[]) {
+    public Automobil(String nume, int anul, int nr_accidente) {
         this.nume = nume;
-        this.accidente = accidente;
-        this.costulAccidente = new int[costulAccidente.length];
-        this.costulAccidente = costulAccidente;
+
+        this.accidente = new int[nr_accidente];
+        this.nr_accidente = nr_accidente;
         this.anul = anul;
         automobile++;
-    }
-
-    public Automobil(String nume, int accidente, int anul){
-        this.nume = nume;
-        this.accidente = accidente;
-        this.anul = anul;
-        automobile++;
-
     }
 
     public Automobil(String nume, int anul){
         this.nume = nume;
+
+        this.anul = anul;
+        automobile++;
+
+    }
+
+    public Automobil(String nume){
+        this.nume = nume;
+        automobile++;
     }
 
     public Automobil(Automobil a) {
         this.nume = a.nume;
         this.anul = a.anul;
-        this.accidente = a.accidente;
-        this.costulAccidente = a.costulAccidente;
+        this.nr_accidente = a.nr_accidente;
+
+        this.accidente = new int[a.accidente.length];
+        for (int i = 0; i < a.accidente.length; i++) {
+            this.accidente[i] = a.accidente[i];
+        }
         automobile++;
 
 
@@ -52,12 +63,15 @@ public class Automobil {
         System.out.println("Total automobile: " + automobile);
         System.out.println("Nume: " + nume);
         System.out.println("Anul producerii: " + anul);
-        System.out.println("Accidente: " + accidente);
 
-        if (costulAccidente != null)
-        for(int i=0;i<costulAccidente.length;i++){
-            System.out.println("  Accident nr"+(i+1)+" - "+costulAccidente[i]+"$");
+
+        if (accidente != null) {
+            System.out.println("Accidente: " + accidente.length);
+            for(int i=0;i<accidente.length;i++){
+                System.out.println("  Accident nr"+(i+1)+" - "+accidente[i]+"$");
+            }
         }
+        else System.out.println("Automobilul nu are accidente");
     }
     //functia care seteaza tot de la tastatura
 
@@ -65,16 +79,48 @@ public class Automobil {
         Scanner sc = new Scanner(System.in);
         System.out.print("Nume: ");
         nume = sc.next();
-        System.out.print("Anul: ");
-        anul = sc.nextInt();
-        System.out.print("Accidente: ");
-        accidente = sc.nextInt();
-        System.out.print("De cate ori a fost reparata masina? ");
-        int nr = sc.nextInt();
-        costulAccidente = new int[nr];
-        System.out.println("Urmeaza sa introduceti costul fiecarei reparatii ");
-        for(int i=0;i<costulAccidente.length;i++){
-            costulAccidente[i] = sc.nextInt();
+        do {
+            System.out.print("Anul: ");
+            anul = sc.nextInt();
+        }
+        while (anul <= 1885 || anul > 2024);
+        nr_accidente = 0;
+        do {
+            System.out.print("Accidente: ");
+            nr_accidente = sc.nextInt();
+        }
+        while (nr_accidente < 0 || nr_accidente > 50 );
+        if (nr_accidente!=0){
+            accidente = new int[nr_accidente];
+            System.out.println("Urmeaza sa introduceti costul fiecarei reparatii ");
+        }
+        else {
+                accidente = null;
+        }
+
+        int nr1 = 0;
+        for(int i=0;i<nr_accidente;i++){
+            do {
+                System.out.println("Accidentul nr "+(i+1)+" : ");
+                nr1 = sc.nextInt();
+            }
+            while (nr1 <= 0  );
+            accidente[i]=nr1;
+        }
+
+    }
+
+
+    public void setRandomValues()
+    {
+        Random rand = new Random();
+        String[] numeRandom = new String[]{"Skoda", "Toyota", "Nissan"};
+        nume = numeRandom[rand.nextInt(numeRandom.length)];
+        anul = rand.nextInt(2024)+1885;
+        nr_accidente = rand.nextInt(numeRandom.length);
+        accidente = new int[nr_accidente];
+        for(int i=0;i<accidente.length;i++){
+            accidente[i] = rand.nextInt(10000)+50;
         }
 
     }
@@ -89,10 +135,10 @@ public class Automobil {
     public int sumaReparatie()
     {
         int sum = 0;
-        if (costulAccidente!=null)
+        if (accidente!=null)
         {
-            for (int i = 0; i < costulAccidente.length; i++) {
-                sum += costulAccidente[i];
+            for (int i = 0; i < accidente.length; i++) {
+                sum += accidente[i];
             }
             System.out.println("Automobilul a fost reparat in suma de "+sum+("$"));
             return sum;
@@ -116,6 +162,7 @@ public class Automobil {
         return nume;
     }
     public void setAn(int an) {
+       if (an > 1500 && an < 2024)
         anul = an;
     }
 
@@ -125,19 +172,44 @@ public class Automobil {
 
 
 
-    public void setAccidente(int accidente) {
-        this.accidente = accidente;
+    public int[] setAccidente(int accidenteTemp) {
+        if (accidenteTemp >= 0 && accidenteTemp <= 50 && accidenteTemp != nr_accidente) {
+            int[] oldAccidente = new int[nr_accidente];
+                 for (int i = 0; i < nr_accidente; i++) {
+                     oldAccidente[i] = accidente[i];
+                 }
+            accidente = new int[accidenteTemp];
+            return oldAccidente;
+            }
+        return null;
+        }
+
+
+    public void setNr_accidente(int nr_accidente) {
+        if ( nr_accidente >= 0 && nr_accidente <= 50 )
+        this.nr_accidente = nr_accidente;
     }
 
-    public int getAccidente() {
+    public int getNr_accidente(){
+            return nr_accidente;
+    }
+
+
+    public int[] getAccidenteList() {
         return accidente;
     }
 
-    public void setCostulAccidente(int costulAccidente[]) {
-        this.costulAccidente = costulAccidente;
+
+    public void setCostAccident (int cost, int index) {
+        if (accidente != null) {
+            if ((index >= 0) && (index < accidente.length) && (cost >= 0) && (cost <= 10000)) {
+                accidente[index] = cost;
+            }
+        }
     }
-    public int[] getCostulAccidente() {
-        return costulAccidente;
+
+    public int getCostAccident (int index) {
+        return accidente[index];
     }
 }
 

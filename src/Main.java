@@ -4,11 +4,15 @@ public class Main {
 
         //System.out.printf("Hello and welcome!");
 
-        Automobil car= new Automobil("Skode Octavia",3,2004, new int[]{1200, 300, 500});
-        Automobil car1= new Automobil("Toyota Prius",8,2000, new int[]{1200, 300, 500});
-        //System.out.println(Automobil.sumaReparatieAutomobile(car, car1)+("$"));   pentru a testa metoda static
+        Automobil car= new Automobil();
 
-         // car.printInfo();
+        car.setNume("Skoda");
+        car.setAn(2008);
+        car.setAccidente(3);
+        car.setCostAccident(1444,0);
+        car.setCostAccident(233,1);
+        car.setCostAccident(333,2);
+         car.printInfo();
     }
 
 }
