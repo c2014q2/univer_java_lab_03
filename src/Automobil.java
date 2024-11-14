@@ -1,4 +1,3 @@
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Random;
@@ -13,7 +12,7 @@ public class Automobil {
 
     private ArrayList<Accident> accidente;
 
-   // private int costulAccidente[];
+    // private int costulAccidente[];
     private int anul;
 
 
@@ -220,20 +219,20 @@ public class Automobil {
 
 
 
-            if (!sc.hasNextInt()) {
+        if (!sc.hasNextInt()) {
 
-                throw new AutomobilException(-1, ind);
+            throw new AutomobilException(-1, ind);
+        }
+        else {
+
+            nr_accidente = sc.nextInt();
+            if (nr_accidente < 0 || nr_accidente > 50) {
+
+                throw new AutomobilException(nr_accidente, ind);
             }
-            else {
+            else if (nr_accidente == 0) accidente.clear();
 
-                nr_accidente = sc.nextInt();
-                if (nr_accidente < 0 || nr_accidente > 50) {
-
-                    throw new AutomobilException(nr_accidente, ind);
-                }
-                else if (nr_accidente == 0) accidente.clear();
-
-            }
+        }
     }
 
     public void inputProbeg()                                                //try in try
@@ -314,8 +313,8 @@ public class Automobil {
         return nume;
     }
     public void setAn(int an) {
-       if (an > 1500 && an < 2024)
-        anul = an;
+        if (an > 1500 && an < 2024)
+            anul = an;
     }
 
     public int getAn() {
@@ -347,7 +346,7 @@ public class Automobil {
     }
 
     public int getNr_accidente(){
-            return nr_accidente;
+        return nr_accidente;
     }
 
 
@@ -361,5 +360,3 @@ public class Automobil {
         return (accidente.get(index)).getPret();
     }
 }
-
-
